@@ -1,0 +1,26 @@
+(defun @otworwka (ssgetFromOutside)
+  (vl-load-com)
+  (if ssgetFromOutside
+    (setq $zazn ssgetFromOutside)
+    (setq $zazn (ssget '((0 . "INSERT") (2 . "dl_linni"))))  ;dl_linni
+  )
+  (setq $zazn_name (ssname $zazn 0))
+  (setq $name "none")
+  (setq $name (cdr (assoc '0 (entget $zazn_name))))
+  (while (not (equal $name "SEQEND"))          ; petla przypisania wartosci z bloku
+    (setq $LST (entget $zazn_name))
+    (setq $attag (cdr (assoc '2 $LST)))
+    (setq $attag (strcase $attag))
+    (if (= $attag "ILOTW")
+      (setq $VAL (CDR (assoc 1 $LST)))
+    )
+    (setq $zazn_name (entnext $zazn_name))
+    (setq $name (cdr (assoc '0 (entget $zazn_name))))
+  )
+  ;(command "-layer" "_s" "otworowka" "")
+  (setq $otw_name (strcat "o" $VAL))
+  (setq $p1 (getpoint "Wskaz pkt w kierunku strzalki"))
+  (setq $p2 (getpoint "Wskaz pkt w kierunku konca"))
+  (setq $angle (- (@RtD (angle $p2 $p1)) 90))  ; -90
+  (command "-insert" $otw_name pause "" "" $angle)
+)

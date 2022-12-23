@@ -1,0 +1,17 @@
+;zmiana krzyza
+(defun C:KRZYZ ( / p1 p2)
+(setvar "snapmode" 0)
+(setvar "orthomode" 0)
+(setq p1 (getpoint "\nPoka� pierwszy punkt: "))
+(setq p2 (getpoint p1 "\nPoka� drugi punkt: "))
+(command "snap" "r" p1 p2)
+(setvar "orthomode" 1)
+(prompt "\nKOMENDA ZERO USTAWIA KRZYZ NA K�T 0...  ")
+(setvar "snapmode" 0)
+)
+
+(defun C:ZERO ()
+(setvar "snapang" 0)
+)
+(princ "\nKOD ====  KRZYZ =====")
+(princ "\nKOD ====  ZERO  =====")
